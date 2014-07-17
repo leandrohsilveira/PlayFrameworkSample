@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, tituloPagina: String)(content: Html, menuLateral: Html)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -86,8 +86,25 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
+    
+    <div class="container">
+      <div class="@if(menuLateral != null){col-md-10}else{col-md-12s}">
+        @content
+      </div>
+      <div class="col-md-2">
+        <div class="panel panel-primary hidden-print hidden-xs hidden-sm affix">
+          @if(tituloPagina != null) {
+            <div class="panel-heading">@tituloPagina</div>
+          }
+          @if(menuLateral != null) {
+            <ul class="nav nav-pills nav-stacked">
+              @menuLateral
+            </ul>     
+          }
+        </div>
+      </div>
+    </div>
 
-    @content
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
