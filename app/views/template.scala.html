@@ -35,8 +35,15 @@
         height: 30px;
         padding-bottom: 5px;
       }
-      body {
-        padding-top: 60px;
+      #slogan {
+      	padding-bottom: 10px;
+      	margin-bottom: 0px;
+      }
+      #slogan .container {
+      	padding-left: 50px;
+      }
+      #margem {
+        padding-top: 40px;
       }
     </style>
 
@@ -53,7 +60,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand text-uppercase" href="#">
+          <a class="visible-xs-block navbar-brand text-uppercase" href="#">
             <img src="@routes.Assets.at("images/marca-bry.png")" class="logo"></img>
             Portal de Serviços
           </a>
@@ -86,14 +93,24 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
+    <div id="slogan" class="jumbotron hidden-xs">
+		<div class="container">
+			<h2>
+			<img src="@routes.Assets.at("images/marca-bry.png")"></img>
+				BRy Portal de Serviços
+			</h2>
+			<p>Sem papel, com segurança</p>
+		</div>
+	</div>
+	<div id="margem" class="visible-xs-block"></div>
     
-    <div class="container">
+    <div id="corpo" class="container">
     	@if(menuLateral != null) {
-    		<div class="col-md-10">
+    		<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
     			@content
     		</div>
-			<div class="col-md-2">
-				<div class="panel panel-primary hidden-print hidden-xs hidden-sm affix">
+			<div class="hidden-print hidden-xs hidden-sm col-md-2 col-lg-2">
+				<div class="panel panel-primary affix">
 					@if(tituloPagina != null) {
 						<div class="panel-heading">@tituloPagina</div>
 					}
@@ -103,7 +120,7 @@
 				</div>
 			</div>
     	} else {
-    		<div class="col-md-12">
+    		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     			@content
     		</div>
     	}

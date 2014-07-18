@@ -13,13 +13,15 @@
 			overflow: auto;
 		}
 	</style>
-	<div class="jumbotron">
-	  <h1>Usuários do Sistema</h1>
-	  <p>Aqui você poderá cadastrar, alterar e remover usuários como um administrador do sistema.</p>
-	  <p><a class="btn btn-primary btn-lg" role="button">Mais informações</a></p>
+	<div class="page-header">
+	  	<h2>
+		  	Usuários do Sistema<br/>
+			<small>Aqui você poderá cadastrar, alterar e remover usuários como um administrador do sistema.</small>
+		  	<a class="btn btn-primary btn-sm" href="#">Mais informações</a>
+	  	</h2>
 	</div>
 	<div class="row">
-    	<div class="col-sm-6 col-md-5">
+    	<div class="@if(usuarios.possuiRegistros()){col-sm-12 col-md-5}else{col-md-12}">
     		<div class="thumbnail">
     			<div class="panel panel-primary">
     				<div class="panel-heading">
@@ -47,76 +49,79 @@
     			</div>
     		</div>
     	</div>
-    	<div class="col-sm-6 col-md-7">
-    		<div class="thumbnail">
-    			<div class="panel panel-primary">
-    				<div class="panel-heading">
-	    				Usuários cadastrados
-    				</div>
-    				<div class="panel-body">
-	    				<form action="/usuario/remover" method="post" id="remover-usuario"></form>
-	    				<table class="table table-stripped table-hover">
-	    					<thead>
-	    						<tr>
-	    							<th class="col-md-1">#</th>
-	    							<th class="col-md-5">Nome</th>
-	    							<th class="col-md-2">Login</th>
-	    							<th class="col-md-4">E-mail</th>
-	    						</tr>
-	    					</thead>
-	    					<tbody>
-	    						@if(usuarios.getItens().isEmpty()) {
-									<tr>
-										<td colspan="4">
-											Nenhum usuário cadastrado.
-										</td>
-									</tr>    						
-	    						} else {
+    	@if(usuarios.possuiRegistros()) {
+	    	<div class="col-sm-12 col-md-7">
+	    		<div class="thumbnail">
+	    			<div class="panel panel-primary">
+	    				<div class="panel-heading">
+		    				Usuários cadastrados
+	    				</div>
+	    				<div class="panel-body">
+		    				<form action="/usuario/remover" method="post" id="remover-usuario"></form>
+		    				<table class="table table-stripped table-hover">
+		    					<thead>
+		    						<tr>
+		    							<th class="col-md-1 col-xs-1 col-sm-1">#</th>
+		    							<th class="col-md-5 col-xs-6 col-sm-6">Nome</th>
+		    							<th class="col-md-2 hidden-xs hidden-sm">Login</th>
+		    							<th class="col-md-4 hidden-xs col-sm-5">E-mail</th>
+		    						</tr>
+		    					</thead>
+		    					<tbody>
 				    				@for(usuario <- usuarios.getItens()) {
 			    						<tr>
 			    							<td class="col-md-1"><input form="remover-usuario" type="radio" name="usuario-selecionado" value="@usuario.getId()" /></td>
 			    							<td class="col-md-5">@usuario.getNome()</td>
-			    							<td class="col-md-2">@usuario.getLogin()</td>
-			    							<td class="col-md-4">@usuario.getEmail()</td>
+			    							<td class="col-md-2 hidden-xs hidden-sm">@usuario.getLogin()</td>
+			    							<td class="col-md-4 hidden-xs col-sm-5">@usuario.getEmail()</td>
 			    						</tr>
 				    				}
-	    						}
-	    					</tbody>
-	    				</table>
-    				</div>
-    				<div class="panel-footer">
-    					<div class="btn-toolbar" role="toolbar">
-    						<div class="btn-group">
-    						</div>
-    						<div class="btn-group">
-			   					<button form="remover-usuario" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
-		   						@if(usuarios.primeiraPagina()){
-							  		<a class="btn btn-default disabled" href="/?pagina=@usuarios.getPaginaSelecionada()">&laquo;</a>
-		   						} else {
-							  		<a class="btn btn-default" href="/?pagina=@usuarios.getPaginaAnterior()">&laquo;</a>
-		   						}
-		   						
-								@for(indice <- 1 to usuarios.getPaginas()) {
-									@if(usuarios.intervalo(indice)) {
-										@if(usuarios.selecionada(indice)) {
-											<a class="btn btn-primary" href="/?pagina=@indice">@indice</a>
-										} else {
-											<a class="btn btn-default" href="/?pagina=@indice">@indice</a>
+		    					</tbody>
+		    				</table>
+	    				</div>
+	    				<div class="panel-footer">
+	    					<div class="btn-toolbar" role="toolbar">
+	    						<div class="btn-group">
+				   					<button form="remover-usuario" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+	    						</div>
+	    						<div class="btn-group">
+			   						@if(usuarios.primeiraPagina()){
+								  		<a class="btn btn-default disabled" href="/?pagina=@usuarios.getPaginaSelecionada()">&laquo;</a>
+			   						} else {
+								  		<a class="btn btn-default" href="/?pagina=@usuarios.getPaginaAnterior()">&laquo;</a>
+			   						}
+			   						
+									@for(indice <- 1 to usuarios.getPaginas()) {
+										@if(usuarios.intervalo(indice)) {
+											@if(usuarios.selecionada(indice)) {
+												<a class="btn btn-primary" href="/?pagina=@indice">@indice</a>
+											} else {
+												<a class="btn btn-default" href="/?pagina=@indice">@indice</a>
+											}
 										}
 									}
-								}
-							  
-		   						@if(usuarios.ultimaPagina()){
-							  		<a class="btn btn-default disabled" href="/?pagina=@usuarios.getPaginaSelecionada()">&raquo;</a>
-		   						} else {
-							  		<a class="btn btn-default" href="/?pagina=@usuarios.getProximaPagina()">&raquo;</a>
-		   						}
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
+								  
+			   						@if(usuarios.ultimaPagina()){
+								  		<a class="btn btn-default disabled" href="/?pagina=@usuarios.getPaginaSelecionada()">&raquo;</a>
+			   						} else {
+								  		<a class="btn btn-default" href="/?pagina=@usuarios.getProximaPagina()">&raquo;</a>
+			   						}
+	    						</div>
+	    					</div>
+	    				</div>
+	    			</div>
+	    		</div>
+	    	</div>
+    	}
     </div>
 }
+
+@menu = {
+	<li><a href="#">Item 1</a></li>
+	<li><a href="#">Item 2</a></li>
+	<li><a href="#">Item 3</a></li>
+	<li><a href="#">Item 4</a></li>
+	<li><a href="#">Item 5</a></li>
+}
+
 @template("BRy Portal de Serviços", "Página Inicial")(content,null)

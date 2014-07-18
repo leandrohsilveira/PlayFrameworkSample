@@ -65,6 +65,10 @@ public class PaginacaoVO<T> implements Serializable {
 	public boolean intervalo(Integer pagina) {
 		return pagina < paginaSelecionada + intervaloExibicao && pagina > paginaSelecionada - intervaloExibicao;
 	}
+	
+	public boolean possuiRegistros() {
+		return itens != null && !itens.isEmpty();
+	}
 
 	public Integer getIntervaloExibicao() {
 		return intervaloExibicao;
