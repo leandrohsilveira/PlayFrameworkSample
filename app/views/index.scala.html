@@ -1,4 +1,4 @@
-@(usuarios: List[Usuario])
+@(usuarios: views.vo.PaginacaoVO[Usuario])
 
 @content = {
 	
@@ -65,14 +65,14 @@
 	    						</tr>
 	    					</thead>
 	    					<tbody>
-	    						@if(usuarios.isEmpty()) {
+	    						@if(usuarios.getItens().isEmpty()) {
 									<tr>
 										<td colspan="4">
 											Nenhum usuário cadastrado.
 										</td>
 									</tr>    						
 	    						} else {
-				    				@for(usuario <- usuarios) {
+				    				@for(usuario <- usuarios.getItens()) {
 			    						<tr>
 			    							<td class="col-md-1"><input form="remover-usuario" type="radio" name="usuario-selecionado" value="@usuario.getId()" /></td>
 			    							<td class="col-md-5">@usuario.getNome()</td>
@@ -85,7 +85,34 @@
 	    				</table>
     				</div>
     				<div class="panel-footer">
-	   					<input form="remover-usuario" type="submit" class="btn btn-primary" value="Remover Usuário">
+    					<div class="btn-toolbar" role="toolbar">
+    						<div class="btn-group">
+    						</div>
+    						<div class="btn-group">
+			   					<button form="remover-usuario" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+		   						@if(usuarios.primeiraPagina()){
+							  		<a class="btn btn-default disabled" href="/?pagina=@usuarios.getPaginaSelecionada()">&laquo;</a>
+		   						} else {
+							  		<a class="btn btn-default" href="/?pagina=@usuarios.getPaginaAnterior()">&laquo;</a>
+		   						}
+		   						
+								@for(indice <- 1 to usuarios.getPaginas()) {
+									@if(usuarios.intervalo(indice)) {
+										@if(usuarios.selecionada(indice)) {
+											<a class="btn btn-primary" href="/?pagina=@indice">@indice</a>
+										} else {
+											<a class="btn btn-default" href="/?pagina=@indice">@indice</a>
+										}
+									}
+								}
+							  
+		   						@if(usuarios.ultimaPagina()){
+							  		<a class="btn btn-default disabled" href="/?pagina=@usuarios.getPaginaSelecionada()">&raquo;</a>
+		   						} else {
+							  		<a class="btn btn-default" href="/?pagina=@usuarios.getProximaPagina()">&raquo;</a>
+		   						}
+    						</div>
+    					</div>
     				</div>
     			</div>
     		</div>

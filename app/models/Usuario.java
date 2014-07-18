@@ -40,10 +40,18 @@ public class Usuario extends EntidadeBase {
 		return finder().where().ieq("ativo", "true").findList();
 	}
 	
+	public static List<Usuario> recuperarAtivos(Integer primeiroResultado, Integer resultadosPorPagina) {
+		return finder().where().ieq("ativo", "true").setFirstRow(primeiroResultado).setMaxRows(resultadosPorPagina).findList();
+	}
+	
+	public static Integer contarUsuariosAtivos() {
+		return finder().where().ieq("ativo", "true").findRowCount();
+	}
+	
 	public static Finder<Long, Usuario> finder() {
 		return finder = finder != null ? finder : new Finder<Long, Usuario>(Long.class, Usuario.class);
 	}
-
+	
 	public String getNome() {
 		return nome;
 	}

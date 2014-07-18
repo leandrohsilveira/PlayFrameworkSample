@@ -8,4 +8,5 @@ POST 	/usuario/salvar				controllers.Application.salvar()
 POST 	/usuario/remover			controllers.Application.remover()
 
 # Map static resources from the /public folder to the /assets URL path
+GET     /assets/javascripts/routes  controllers.Application.javascriptRoutes()
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
