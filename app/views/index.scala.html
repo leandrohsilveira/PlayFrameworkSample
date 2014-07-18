@@ -1,3 +1,5 @@
+@(usuarios: List[Usuario])
+
 @content = {
 	
 	<style type="text/css">
@@ -5,47 +7,89 @@
 		  padding: 40px 15px;
 		  text-align: center;
 		}
+		
+		.thumbnail .panel .panel-body {
+			height: 230px;
+			overflow: auto;
+		}
 	</style>
 	<div class="jumbotron">
-	  <h1>Hello, world!</h1>
-	  <p>...</p>
-	  <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
+	  <h1>Usuários do Sistema</h1>
+	  <p>Aqui você poderá cadastrar, alterar e remover usuários como um administrador do sistema.</p>
+	  <p><a class="btn btn-primary btn-lg" role="button">Mais informações</a></p>
 	</div>
 	<div class="row">
-    	<div class="col-sm-6 col-md-4">
+    	<div class="col-sm-6 col-md-5">
     		<div class="thumbnail">
-    			<div class="panel panel-primary caption">
-    				<h3>Thumb 1</h3>
-    				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam omnis accusamus rem quibusdam repellendus hic molestias optio ipsam, quaerat veniam alias obcaecati sed quos quas repellat distinctio, voluptatibus deleniti perferendis!</p>
-    				<p><a href="#" class="btn btn-primary">Primario</a><a href="#" class="btn btn-default">Default</a></p>
+    			<div class="panel panel-primary">
+    				<div class="panel-heading">
+	    				Cadastrar
+    				</div>
+    				<div class="panel-body">
+	    				<form action="/usuario/salvar" id="salvar-usuario" method="post" role="form"></form>
+	    				<div class="form-group">
+	    					<input form="salvar-usuario" name="nome" type="text" class="form-control" placeholder="Nome completo" />
+	    				</div>
+	    				<div class="form-group">
+	    					<input form="salvar-usuario" name="login" type="text" class="form-control" placeholder="Nome do usuário" />
+	    				</div>
+	    				<div class="form-group">
+	    					<input form="salvar-usuario" name="senha" type="password" class="form-control" placeholder="Senha" />
+	    				</div>
+	    				<div class="form-group">
+	    					<input form="salvar-usuario" name="email" type="text" class="form-control" placeholder="E-mail" />
+	    				</div>
+    				</div>
+    				<div class="panel-footer">
+    					<input form="salvar-usuario" type="submit" class="btn btn-primary" value="Salvar Usuário">
+    					<input form="salvar-usuario" type="reset" class="btn btn-default" value="Limpar">
+    				</div>
     			</div>
     		</div>
     	</div>
-    	<div class="col-sm-6 col-md-4">
+    	<div class="col-sm-6 col-md-7">
     		<div class="thumbnail">
-    			<div class="panel panel-primary caption">
-    				<h3>Thumb 2</h3>
-    				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo sit cum voluptatem, et sint perferendis. Excepturi quibusdam, possimus vero dolores id inventore? Veniam architecto, earum officia tenetur ab sit corporis.</p>
-    				<p><a href="#" class="btn btn-primary">Primario</a><a href="#" class="btn btn-default">Default</a></p>
-    			</div>
-    		</div>
-    	</div>
-    	<div class="col-sm-6 col-md-4">
-    		<div class="thumbnail">
-    			<div class="panel panel-primary caption">
-    				<h3>Thumb 3</h3>
-    				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque deleniti sunt architecto atque aut reprehenderit vitae quia, tempora, sed odio, in consequatur! Suscipit ipsa ad, labore voluptatibus dolores tempora hic.</p>
-    				<p><a href="#" class="btn btn-primary">Primario</a><a href="#" class="btn btn-default">Default</a></p>
+    			<div class="panel panel-primary">
+    				<div class="panel-heading">
+	    				Usuários cadastrados
+    				</div>
+    				<div class="panel-body">
+	    				<form action="/usuario/remover" method="post" id="remover-usuario"></form>
+	    				<table class="table table-stripped table-hover">
+	    					<thead>
+	    						<tr>
+	    							<th class="col-md-1">#</th>
+	    							<th class="col-md-5">Nome</th>
+	    							<th class="col-md-2">Login</th>
+	    							<th class="col-md-4">E-mail</th>
+	    						</tr>
+	    					</thead>
+	    					<tbody>
+	    						@if(usuarios.isEmpty()) {
+									<tr>
+										<td colspan="4">
+											Nenhum usuário cadastrado.
+										</td>
+									</tr>    						
+	    						} else {
+				    				@for(usuario <- usuarios) {
+			    						<tr>
+			    							<td class="col-md-1"><input form="remover-usuario" type="radio" name="usuario-selecionado" value="@usuario.getId()" /></td>
+			    							<td class="col-md-5">@usuario.getNome()</td>
+			    							<td class="col-md-2">@usuario.getLogin()</td>
+			    							<td class="col-md-4">@usuario.getEmail()</td>
+			    						</tr>
+				    				}
+	    						}
+	    					</tbody>
+	    				</table>
+    				</div>
+    				<div class="panel-footer">
+	   					<input form="remover-usuario" type="submit" class="btn btn-primary" value="Remover Usuário">
+    				</div>
     			</div>
     		</div>
     	</div>
     </div>
 }
-@menuLateral = {
-	<li><a href="#">Item</a></li>
-	<li><a href="#">Item</a></li>
-	<li><a href="#">Item</a></li>
-	<li><a href="#">Item</a></li>
-	<li><a href="#">Item</a></li>
-}
-@template("BRy Portal de Serviços", "Página Inicial")(content,menuLateral)
+@template("BRy Portal de Serviços", "Página Inicial")(content,null)

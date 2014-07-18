@@ -2,11 +2,15 @@ import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.contentType;
 
+import java.util.List;
+
+import models.Usuario;
+
 import org.junit.Test;
 
+import play.db.ebean.Model;
 import play.mvc.Content;
-
-import views.html.*;
+import views.html.index;
 
 
 /**
@@ -25,7 +29,8 @@ public class ApplicationTest {
     
     @Test
     public void renderTemplate() {
-        Content html = index.render();
+    	List<Usuario> usuarios = new Model.Finder<Long, Usuario>(Long.class, Usuario.class).all();
+        Content html = index.render(usuarios);
         assertThat(contentType(html)).isEqualTo("text/html");
         assertThat(contentAsString(html)).contains("Your new application is ready.");
     }

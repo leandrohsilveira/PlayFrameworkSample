@@ -88,21 +88,25 @@
     </div>
     
     <div class="container">
-      <div class="@if(menuLateral != null){col-md-10}else{col-md-12s}">
-        @content
-      </div>
-      <div class="col-md-2">
-        <div class="panel panel-primary hidden-print hidden-xs hidden-sm affix">
-          @if(tituloPagina != null) {
-            <div class="panel-heading">@tituloPagina</div>
-          }
-          @if(menuLateral != null) {
-            <ul class="nav nav-pills nav-stacked">
-              @menuLateral
-            </ul>     
-          }
-        </div>
-      </div>
+    	@if(menuLateral != null) {
+    		<div class="col-md-10">
+    			@content
+    		</div>
+			<div class="col-md-2">
+				<div class="panel panel-primary hidden-print hidden-xs hidden-sm affix">
+					@if(tituloPagina != null) {
+						<div class="panel-heading">@tituloPagina</div>
+					}
+					<ul class="nav nav-pills nav-stacked">
+						@menuLateral
+					</ul>     
+				</div>
+			</div>
+    	} else {
+    		<div class="col-md-12">
+    			@content
+    		</div>
+    	}
     </div>
 
 
