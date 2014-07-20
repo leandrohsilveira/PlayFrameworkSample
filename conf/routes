@@ -4,8 +4,12 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+GET		/p/:pagina					controllers.Application.usuarios(pagina: Integer)
 POST 	/usuario/salvar				controllers.Application.salvar()
-POST 	/usuario/remover			controllers.Application.remover()
+POST	/usuario/acao				controllers.Application.acao()
+
+POST	/usuario/remover/:id		controllers.Application.remover(id :Long)
+POST	/usuario/editar/:id			controllers.Application.editar(id :Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/javascripts/routes  controllers.Application.javascriptRoutes()
