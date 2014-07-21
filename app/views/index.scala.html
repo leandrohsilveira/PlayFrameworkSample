@@ -9,7 +9,7 @@
 		}
 		
 		.thumbnail .panel .panel-body {
-			height: 230px;
+			height: 280px;
 			overflow: auto;
 		}
 	</style>
@@ -25,7 +25,7 @@
     		<div class="thumbnail">
     			<div class="panel panel-primary">
     				<div class="panel-heading">
-	    				Cadastrar
+	    				Formulário
     				</div>
     				<div class="panel-body">
 	    				<form action="/usuario/salvar" id="salvar-usuario" method="post" role="form"></form>
@@ -42,6 +42,20 @@
 	    				<div class="form-group">
 	    					<input form="salvar-usuario" name="email" type="text" class="form-control" placeholder="E-mail" value="@edicao.getEmail()" />
 	    				</div>
+	    				<div class="form-group">
+	    					<select name="papel" class="form-control" form="salvar-usuario" placeholder="Papel">
+	    						@if(edicao.getPapel() == null) {
+	    							<option value="" disabled="disabled" selected="selected">Papel</option>
+	    						}
+	    						@for(papel <- enums.PapelEnum.values()) {
+	    							@if(papel.equals(edicao.getPapel())) {
+			    						<option value="@papel.toString()" selected="selected">@papel.getRotulo()</option>
+	    							} else {
+			    						<option value="@papel.toString()">@papel.getRotulo()</option>
+	    							}
+	    						}
+	    					</select>
+	    				</div>
     				</div>
     				<div class="panel-footer">
     					<input form="salvar-usuario" type="submit" class="btn btn-primary" value="Salvar Usuário">
@@ -55,7 +69,7 @@
 	    		<div class="thumbnail">
 	    			<div class="panel panel-primary">
 	    				<div class="panel-heading">
-		    				Usuários cadastrados
+		    				Usuários
 	    				</div>
 	    				<div class="panel-body">
 		    				<form action="/usuario/acao" method="post" id="acao-usuario"></form>
@@ -64,8 +78,8 @@
 		    						<tr>
 		    							<th class="col-md-1 col-xs-1 col-sm-1">#</th>
 		    							<th class="col-md-5 col-xs-6 col-sm-6">Nome</th>
-		    							<th class="col-md-2 hidden-xs hidden-sm">Login</th>
 		    							<th class="col-md-4 hidden-xs col-sm-5">E-mail</th>
+		    							<th class="col-md-2 hidden-xs hidden-sm">Papel</th>
 		    						</tr>
 		    					</thead>
 		    					<tbody>
@@ -73,8 +87,8 @@
 			    						<tr>
 			    							<td class="col-md-1"><input form="acao-usuario" type="radio" name="usuario-selecionado" value="@usuario.getId()" /></td>
 			    							<td class="col-md-5">@usuario.getNome()</td>
-			    							<td class="col-md-2 hidden-xs hidden-sm">@usuario.getLogin()</td>
 			    							<td class="col-md-4 hidden-xs col-sm-5">@usuario.getEmail()</td>
+			    							<td class="col-md-3 hidden-xs hidden-sm">@usuario.getPapel().getRotulo()</td>
 			    						</tr>
 				    				}
 		    					</tbody>
@@ -126,4 +140,4 @@
 	<li><a href="#">Item 5</a></li>
 }
 
-@template("BRy Portal de Serviços", "Página Inicial")(content,null)
+@template("BRy Portal de Serviços", "Página Inicial")(content, null)

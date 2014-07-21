@@ -4,8 +4,11 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Transient;
 
+import enums.PapelEnum;
 import play.data.validation.Constraints.MaxLength;
 import play.db.ebean.Model;
 
@@ -32,6 +35,10 @@ public class Usuario extends EntidadeBase {
 	@Column(name="email", length=50)
 	@MaxLength(value=50)
 	private String email;
+	
+	@Column(name="papel", nullable=false)
+	@Enumerated(value=EnumType.STRING)
+	private PapelEnum papel;
 	
 	@Transient
 	private static Finder<Long, Usuario> finder; 
@@ -74,6 +81,14 @@ public class Usuario extends EntidadeBase {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public PapelEnum getPapel() {
+		return papel;
+	}
+
+	public void setPapel(PapelEnum papel) {
+		this.papel = papel;
 	}
 	
 }
