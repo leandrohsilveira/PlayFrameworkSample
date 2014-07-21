@@ -10,6 +10,8 @@ create table usuario (
   login                     varchar(16),
   senha                     varchar(16),
   email                     varchar(50),
+  papel                     varchar(13) not null,
+  constraint ck_usuario_papel check (papel in ('ADMINISTRADOR','USUARIO')),
   constraint pk_usuario primary key (id))
 ;
 
