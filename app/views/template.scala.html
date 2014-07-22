@@ -1,4 +1,4 @@
-@(title: String, tituloPagina: String)(content: Html, menuLateral: Html)
+@(title: String, tituloPagina: String)(content: Html, menuLateral: Html, scripts: Html)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -137,5 +137,6 @@
 	<script type="text/javascript" src="@routes.Assets.at("javascripts/underscore-min.js")"></script>
 	<script type="text/javascript" src="@routes.Assets.at("javascripts/backbone-min.js")"></script>
 	<script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
+	@scripts
   </body>
 </html>

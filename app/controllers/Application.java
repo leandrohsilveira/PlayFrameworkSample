@@ -2,6 +2,10 @@ package controllers;
 
 import java.util.List;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.node.POJONode;
+
 import com.avaje.ebean.Ebean;
 
 import models.Usuario;
@@ -11,6 +15,7 @@ import play.api.UsefulException;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.ebean.Model;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
@@ -99,11 +104,24 @@ public class Application extends Controller {
     	return usuarios(null, usuario);
     }
     
+    public static Result ajaxEditar(Long id) {
+    	if(id != null) {
+    		Usuario usuario = Usuario.finder().byId(id);
+//    		if(usuario != null) {
+//    			JsonNode pojoNode = JsonNodeFactory.instance.POJONode(usuario);
+//    			return ok(pojoNode);
+//    		}
+    		Logger.debug("Usuario editar: "+usuario);
+    		return ok(Json.toJson(usuario));
+    	}
+		return badRequest();
+    }
+    
     public static Result javascriptRoutes() {
         response().setContentType("text/javascript");
         return ok(
             Routes.javascriptRouter("jsRoutes",
-                controllers.routes.javascript.Application.salvar()
+                controllers.routes.javascript.Application.ajaxEditar()
             )
         );
     }

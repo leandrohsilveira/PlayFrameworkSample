@@ -10,6 +10,7 @@ POST	/usuario/acao				controllers.Application.acao()
 
 POST	/usuario/remover/:id		controllers.Application.remover(id :Long)
 POST	/usuario/editar/:id			controllers.Application.editar(id :Long)
+POST    /ajax/usuario/editar/:id    controllers.Application.ajaxEditar(id :Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/javascripts/routes  controllers.Application.javascriptRoutes()

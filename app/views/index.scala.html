@@ -85,7 +85,7 @@
 		    					<tbody>
 				    				@for(usuario <- usuarios.getItens()) {
 			    						<tr>
-			    							<td class="col-md-1"><input form="acao-usuario" type="radio" name="usuario-selecionado" value="@usuario.getId()" /></td>
+			    							<td class="col-md-1"><input form="acao-usuario" type="radio" class="usuario-selecionado" name="usuario-selecionado" value="@usuario.getId()" /></td>
 			    							<td class="col-md-5">@usuario.getNome()</td>
 			    							<td class="col-md-4 hidden-xs col-sm-5">@usuario.getEmail()</td>
 			    							<td class="col-md-3 hidden-xs hidden-sm">@usuario.getPapel().getRotulo()</td>
@@ -97,7 +97,7 @@
 	    				<div class="panel-footer">
 	    					<div class="btn-toolbar" role="toolbar">
 	    						<div class="btn-group">
-				   					<button form="acao-usuario" name="botao-acao" type="submit" class="btn btn-default" value="editar"><span class="glyphicon glyphicon-pencil"></span></button>
+				   					<button name="botao-acao" type="button" class="btn btn-default editar-usuario" value="editar"><span class="glyphicon glyphicon-pencil"></span></button>
 				   					<button form="acao-usuario" name="botao-acao" type="submit" class="btn btn-default" value="remover"><span class="glyphicon glyphicon-trash"></span></button>
 	    						</div>
 	    						<div class="btn-group">
@@ -132,6 +132,10 @@
     </div>
 }
 
+@scripts = {
+    <script src='@routes.Assets.at("javascripts/index.main.js")'></script>
+}
+
 @menu = {
 	<li><a href="#">Item 1</a></li>
 	<li><a href="#">Item 2</a></li>
@@ -140,4 +144,4 @@
 	<li><a href="#">Item 5</a></li>
 }
 
-@template("BRy Portal de Serviços", "Página Inicial")(content, null)
+@template("BRy Portal de Serviços", "Página Inicial")(content, null, scripts)
