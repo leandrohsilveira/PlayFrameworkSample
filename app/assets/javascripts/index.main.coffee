@@ -12,7 +12,7 @@ editar = (event) ->
  do event.preventDefault
  idSelecionado = do $(usuarioSelecionadoSel).val
  if idSelecionado 
-  jsRoutes.controllers.Application.ajaxEditar(idSelecionado).ajax
+  jsRoutes.controllers.Application.editar(idSelecionado).ajax
    context: this
    success: (data) ->
     exec = (name, value) ->

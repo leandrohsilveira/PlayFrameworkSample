@@ -21,6 +21,9 @@ import play.mvc.Result;
 import views.html.index;
 import views.html.defaultpages.error;
 import views.vo.PaginacaoVO;
+import views.vo.VO;
+import views.vo.impl.MensagemVO;
+import views.vo.impl.UsuarioVO;
 
 public class Application extends Controller {
 	
@@ -97,31 +100,26 @@ public class Application extends Controller {
     }
     
     public static Result editar(Long id) {
-    	Usuario usuario = null;
-    	if(id != null) {
-			usuario = Usuario.finder().byId(id);
-    	}
-    	return usuarios(null, usuario);
-    }
-    
-    public static Result ajaxEditar(Long id) {
     	if(id != null) {
     		Usuario usuario = Usuario.finder().byId(id);
-//    		if(usuario != null) {
-//    			JsonNode pojoNode = JsonNodeFactory.instance.POJONode(usuario);
-//    			return ok(pojoNode);
-//    		}
-    		Logger.debug("Usuario editar: "+usuario);
-    		return ok(Json.toJson(usuario));
+    		if(usuario != null) {
+    			VO vo = new UsuarioVO(usuario);
+    			return ok(vo.toJSON());
+    		} else {
+    			VO vo = new MensagemVO(MensagemVO.TIPO_ERRO, "Usuário não encontrado.", String.format("O usuário com ID %d não foi localizado.", id));
+    			return badRequest(vo.toJSON());
+    		}
+    	} else {
+    		VO vo = new MensagemVO(MensagemVO.TIPO_ERRO, "Não foi informado um ID pra localizar o usuário.", null);
+    		return badRequest(vo.toJSON());
     	}
-		return badRequest();
     }
     
     public static Result javascriptRoutes() {
         response().setContentType("text/javascript");
         return ok(
             Routes.javascriptRouter("jsRoutes",
-                controllers.routes.javascript.Application.ajaxEditar()
+                controllers.routes.javascript.Application.editar()
             )
         );
     }
