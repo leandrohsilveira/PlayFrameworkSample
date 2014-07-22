@@ -19,6 +19,7 @@ public class UsuarioVO extends BaseModelVO<Usuario> implements ModelVO<Usuario> 
 	private String login;
 	private String email;
 	private PapelEnum papel;
+	private String rotuloPapel;
 	
 	@Override
 	public Long getId() {
@@ -72,5 +73,12 @@ public class UsuarioVO extends BaseModelVO<Usuario> implements ModelVO<Usuario> 
 	public void setPapel(PapelEnum papel) {
 		this.papel = papel;
 	}
-
+	
+	public String getRotuloPapel() {
+		return rotuloPapel = papel != null ? papel.getRotulo() : "";
+	}
+	
+	public void setRotuloPapel(String rotuloPapel) {
+		this.rotuloPapel = rotuloPapel;
+	}
 }

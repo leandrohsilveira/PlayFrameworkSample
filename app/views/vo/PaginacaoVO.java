@@ -3,9 +3,9 @@ package views.vo;
 import java.io.Serializable;
 import java.util.List;
 
-import models.Usuario;
+import views.vo.impl.BaseVO;
 
-public class PaginacaoVO<T> implements Serializable {
+public class PaginacaoVO<T> extends BaseVO implements Serializable {
 
 	/**
 	 * 
@@ -14,20 +14,35 @@ public class PaginacaoVO<T> implements Serializable {
 	
 	private List<T> itens;
 	private Integer paginas;
+	private Integer primeiroIndice = 0;
 	private Integer resultadosPorPaginas;
 	private Integer paginaSelecionada;
 	private Integer intervaloExibicao = 5;
+	private String paginador;
 	
-	public PaginacaoVO(List<T> itens, Integer paginas, Integer resultadosPorPagina, Integer paginaSelecionada) {
+	public PaginacaoVO(Integer resultadosPorPagina, Integer paginaSelecionada, Integer totalRegistros) {
 		super();
-		this.itens = itens;
-		this.paginas = paginas;
 		this.resultadosPorPaginas = resultadosPorPagina;
 		this.paginaSelecionada = paginaSelecionada;
+		
+		this.paginaSelecionada = this.paginaSelecionada != null && this.paginaSelecionada > 0 ? this.paginaSelecionada : 1;
+		this.resultadosPorPaginas = this.resultadosPorPaginas != null && this.resultadosPorPaginas > 0 ? this.resultadosPorPaginas : 3;
+		
+		primeiroIndice = (this.paginaSelecionada - 1) * this.resultadosPorPaginas;
+		if(totalRegistros % resultadosPorPagina == 0) {
+			paginas = totalRegistros / resultadosPorPagina;
+		} else {
+			paginas = totalRegistros / resultadosPorPagina + 1;
+		}
+		this.paginaSelecionada = this.paginaSelecionada <= paginas ? this.paginaSelecionada : paginas;
 	}
 
 	public List<T> getItens() {
 		return itens;
+	}
+	
+	public void setItens(List<T> itens) {
+		this.itens = itens;
 	}
 	
 	public Integer getPaginas() {
@@ -77,5 +92,22 @@ public class PaginacaoVO<T> implements Serializable {
 	public void setIntervaloExibicao(Integer intervaloExibicao) {
 		this.intervaloExibicao = intervaloExibicao;
 	}
+
+	public Integer getPrimeiroIndice() {
+		return primeiroIndice;
+	}
+
+	public void setPrimeiroIndice(Integer primeiroIndice) {
+		this.primeiroIndice = primeiroIndice;
+	}
+
+	public String getPaginador() {
+		return paginador;
+	}
+
+	public void setPaginador(String paginador) {
+		this.paginador = paginador;
+	}
+
 	
 }

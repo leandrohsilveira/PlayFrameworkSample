@@ -1,0 +1,9 @@
+@(paginaSelecionada: Integer = 1, totalPaginas: Integer = 1, registrosPorPagina: Integer = 5, ref: String)
+
+<a class="btn btn-default @if(paginaSelecionada == 1){disabled}" href="#@ref/@(paginaSelecionada-1)">&laquo;</a>
+
+@for(indice <- 1 to totalPaginas) {
+	<a class="btn @if(paginaSelecionada == indice){btn-primary}else{btn-default}" href="#@ref/@indice">@indice</a>
+}
+
+<a class="btn btn-default @if(paginaSelecionada == totalPaginas){disabled}" href="#@ref/@(paginaSelecionada+1)">&raquo;</a>

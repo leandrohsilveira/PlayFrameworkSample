@@ -1,29 +1,87 @@
 usuarioSelecionadoSel = '.usuario-selecionado:checked'
-@thiz = this
+
+componentes =
+ tabelaUsuarios: $("#tabela-usuarios")
+ linhaTemplate: $("#tabela-usuarios tr.template")
+ linhaTabelaVazia: $("#tabela-usuarios #tabela-vazia")
+ paginador: $("#paginador-usuario")
+
+UsuarioRouter = Backbone.Router.extend
+ routes:
+  "usuario/editar/:id":           "editar"
+  "usuarios/:resultados/:pagina": "listar"
+  "usuarios/:pagina": "listarTeste"
+   
+router = new UsuarioRouter
+router.on "route:editar", (id) -> editar id
+router.on "route:listarTeste", (pagina) -> 
+ itens = do $("#usuario-registros-por-pagina").val
+ router.navigate "usuarios/#{itens}/#{pagina}", trigger: true
+router.on "route:listar", (resultados, pagina) -> 
+ $("#usuario-registros-por-pagina").val resultados
+ listarPagina pagina, resultados
+ 
 
 $(document).ready ->
-  $(document).on "click", ".editar-usuario", editar
+  do listar
+  $(document).on "click", "button.editar-usuario", (evento) ->
+   do event.preventDefault if event
+   id = do $(usuarioSelecionadoSel).val
+   router.navigate "usuario/editar/#{id}", trigger: true
+   
+  $(document).on "click", "button.remover-usuario", (evento) ->
+   do event.preventDefault if event
+   id = do $(usuarioSelecionadoSel).val
+   remover id
+  $(document).on "change", "#usuario-registros-por-pagina", (e) ->
+    itens = do $(this).val
+    router.navigate "usuarios/#{itens}/1", trigger: true
 
-arrayToJson = (array) ->
- obj[name] = value for value, name in array
- obj
 
-editar = (event) ->
- do event.preventDefault
- idSelecionado = do $(usuarioSelecionadoSel).val
- if idSelecionado 
-  jsRoutes.controllers.Application.editar(idSelecionado).ajax
+   
+  do Backbone.history.start
+  
+remover = (id) ->
+ if id
+  jsRoutes.controllers.Application.remover(id).ajax
    context: this
    success: (data) ->
-    exec = (name, value) ->
-     comp = $("input[name='#{name}']")
-     if comp and comp.length > 0
-      comp.val value
-     else
-      comp = $("select[name='#{name}']")
-      $("select[name='#{name}'] option[value='#{value}']").prop "selected", true if comp and comp.length > 0
-    exec name, value for name, value of data
+    do listar
    error: (error) ->
     alert "Erro: #{error}"
+
+editar = (id) ->
+ if id 
+  jsRoutes.controllers.Application.editar(id).ajax
+   context: this
+   success: (data) ->
+    Utils.updateForm data
+   error: (error) ->
+    alert "Erro: #{error}"
+
+listar = (event) ->
+ do event.preventDefault if event
+ listarPagina 1, 5
+ 
+listarPagina = (pag, resultados) ->
+ jsRoutes.controllers.Application.listar(pag, resultados).ajax
+  context: this
+  success: (data) ->
+   tbody = componentes.tabelaUsuarios.find "tbody"
+   tbody.html componentes.linhaTemplate
+   for model in data.itens
+    linha = do componentes.linhaTemplate.clone
+    linha.removeClass "template"
+    for name, value of model
+     span = linha.find "span.usuario-#{name}"
+     if span and span.length > 0
+      span.html value
+     else
+      span = linha.find "input.usuario-#{name}"
+      span.val value if span and span.length > 0
+    tbody.append linha
+   componentes.paginador.html data.paginador
+  error: (error) ->
+   alert error
     
     
