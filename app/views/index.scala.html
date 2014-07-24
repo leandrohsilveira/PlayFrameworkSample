@@ -36,19 +36,19 @@
 	    				Formulário
     				</div>
     				<div class="panel-body">
-	    				<form action="/usuario/salvar" id="salvar-usuario" method="post" role="form"></form>
+	    				<form action="/usuarios" id="salvar-usuario" method="post" role="form"></form>
 	    				<input form="salvar-usuario" name="id" type="text" class="escondido" />	
 	    				<div class="form-group">
-	    					<input form="salvar-usuario" name="nome" type="text" class="form-control" placeholder="Nome completo" />
+	    					<input form="salvar-usuario" name="nome" required="required" type="text" class="form-control" placeholder="Nome completo" />
 	    				</div>
 	    				<div class="form-group">
-	    					<input form="salvar-usuario" name="login" type="text" class="form-control" placeholder="Nome do usuário" />
+	    					<input form="salvar-usuario" name="login" required="required" type="text" class="form-control" placeholder="Nome do usuário" />
 	    				</div>
 	    				<div class="form-group">
-	    					<input form="salvar-usuario" name="senha" type="password" class="form-control" placeholder="Senha" />
+	    					<input form="salvar-usuario" name="senha" required="required" type="password" class="form-control" placeholder="Senha" />
 	    				</div>
 	    				<div class="form-group">
-	    					<input form="salvar-usuario" name="email" type="text" class="form-control" placeholder="E-mail" />
+	    					<input form="salvar-usuario" name="email" required="required" type="email" class="form-control" placeholder="E-mail" />
 	    				</div>
 	    				<div class="form-group">
 	    					<select name="papel" class="form-control" form="salvar-usuario" placeholder="Papel">
@@ -72,7 +72,9 @@
 	    				Usuários
     				</div>
     				<div class="panel-body">
-	    				<form action="/usuario/acao" method="post" id="acao-usuario"></form>
+	    				<form action="#" method="post" id="acao-usuario">
+	    					
+	    				</form>
 	    				<table id="tabela-usuarios" class="table table-stripped table-hover">
 	    					<thead>
 	    						<tr>

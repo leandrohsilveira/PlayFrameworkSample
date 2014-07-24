@@ -8,15 +8,18 @@ componentes =
 
 UsuarioRouter = Backbone.Router.extend
  routes:
-  "usuario/editar/:id":           "editar"
-  "usuarios/:resultados/:pagina": "listar"
-  "usuarios/:pagina": "listarTeste"
+  "usuarios/editar/:id":           "editar"
+  "usuarios/:resultados/:pagina":  "listar"
+  "usuarios/:pagina":              "listarPagina"
    
 router = new UsuarioRouter
+
 router.on "route:editar", (id) -> editar id
-router.on "route:listarTeste", (pagina) -> 
+
+router.on "route:listarPagina", (pagina) -> 
  itens = do $("#usuario-registros-por-pagina").val
  router.navigate "usuarios/#{itens}/#{pagina}", trigger: true
+
 router.on "route:listar", (resultados, pagina) -> 
  $("#usuario-registros-por-pagina").val resultados
  listarPagina pagina, resultados
@@ -24,23 +27,24 @@ router.on "route:listar", (resultados, pagina) ->
 
 $(document).ready ->
   do listar
-  $(document).on "click", "button.editar-usuario", (evento) ->
+
+
+  $(document).on "click", "button.editar-usuario", (event) ->
    do event.preventDefault if event
    id = do $(usuarioSelecionadoSel).val
-   router.navigate "usuario/editar/#{id}", trigger: true
+   router.navigate "usuarios/editar/#{id}", trigger: true
    
-  $(document).on "click", "button.remover-usuario", (evento) ->
+  $(document).on "click", "button.remover-usuario", (event) ->
    do event.preventDefault if event
    id = do $(usuarioSelecionadoSel).val
    remover id
   $(document).on "change", "#usuario-registros-por-pagina", (e) ->
-    itens = do $(this).val
-    router.navigate "usuarios/#{itens}/1", trigger: true
-
-
-   
+   itens = do $(this).val
+   router.navigate "usuarios/#{itens}/1", trigger: true
+ 
   do Backbone.history.start
   
+
 remover = (id) ->
  if id
   jsRoutes.controllers.Application.remover(id).ajax
@@ -48,7 +52,7 @@ remover = (id) ->
    success: (data) ->
     do listar
    error: (error) ->
-    alert "Erro: #{error}"
+    $(document).html error.responseText
 
 editar = (id) ->
  if id 
@@ -57,11 +61,11 @@ editar = (id) ->
    success: (data) ->
     Utils.updateForm data
    error: (error) ->
-    alert "Erro: #{error}"
+    $(document).html error.responseText
 
 listar = (event) ->
  do event.preventDefault if event
- listarPagina 1, 5
+ listarPagina 1, 3
  
 listarPagina = (pag, resultados) ->
  jsRoutes.controllers.Application.listar(pag, resultados).ajax
@@ -82,6 +86,6 @@ listarPagina = (pag, resultados) ->
     tbody.append linha
    componentes.paginador.html data.paginador
   error: (error) ->
-   alert error
+   $(document).html error.responseText
     
     

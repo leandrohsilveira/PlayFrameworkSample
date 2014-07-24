@@ -3,12 +3,13 @@
 # ~~~~
 
 # Home page
-GET     /                           	controllers.Application.index()
-
-POST 	/usuario/salvar					controllers.Application.salvar()
-GET     /ajax/usuario/editar/:id    	controllers.Application.editar(id :Long)
-DELETE	/ajax/usuario/remover/:id		controllers.Application.remover(id :Long)
+GET     /ajax/usuarios/:id    			controllers.Application.editar(id :Long)
+DELETE	/ajax/usuarios/:id				controllers.Application.remover(id :Long)
 GET		/ajax/usuarios/:itens/:pagina	controllers.Application.listar(pagina :Integer, itens :Integer)
+
+GET     /usuarios                      	controllers.Application.index()
+POST 	/usuarios						controllers.Application.salvar()
+GET     /                           	controllers.Application.index()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/javascripts/routes  	controllers.Application.javascriptRoutes()
